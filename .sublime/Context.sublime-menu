@@ -1,0 +1,38 @@
+[
+  {
+    "caption": "Html To Pug",
+    "command": "testt_beautify_select_region",
+    "args": {
+      "syntax": "html2pug"
+    }
+  },
+  {
+    "id": "cps-plugins",
+    "caption": "CPS-Plugins",
+    "children": [
+      {
+        "caption": "Cps Beautify 【格式化】",
+        "children": [
+          {
+            "caption": "Beautify Currt File",
+            "command": "cps_beautify_currt_file"
+          },
+          {
+            "caption": "Html To Pug",
+            "command": "cps_beautify_select_region",
+            "args": {
+              "syntax": "html2pug"
+            }
+          },
+          {
+            "caption": "Pug To Html",
+            "command": "cps_beautify_select_region",
+            "args": {
+              "syntax": "pug2html"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

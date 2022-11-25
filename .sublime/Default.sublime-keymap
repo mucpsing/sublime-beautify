@@ -1,0 +1,6 @@
+[
+  {
+    "keys": ["alt+s"],
+    "command": "testt_beautify_currt_file"
+  }
+]

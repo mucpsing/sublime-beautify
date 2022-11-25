@@ -1,0 +1,41 @@
+<template lang="pug">
+
+//- @Author: CPS
+
+//- 外部容器
+div.login_container
+  div(class='bg-red-50 bg-slate-50 mx-2 bg-gray-200')
+  //- 左上角 logo框
+  div.logo_box
+    img.logo_img(src='../assets/logo.png', alt='logo img')
+    //- 内部容器
+    div.logo_text
+      //- 主标题
+      div.logo_title
+        | {{ appname }}
+      //- 副标题
+      div.logo_subtitle
+        | {{ appsubname }}
+
+  //- 登陆框
+  div.login_box
+    //- 标题
+    el-row.login_title(style='margin-top: 10px', :span='"24" + "9"')
+      | {{ loginMode }}
+
+    //- 登录数据表单
+    el-form.login_form(
+      ref='formData',
+      style='margin: 50px 0',
+      :model='formData',
+      :rules='rules'
+    )
+      //- 账号输入框
+      el-form-item(prop='username')
+        el-input(
+          v-model='formData.username',
+          placeholder='输入账号',
+          prefix-icon='iconfont1 icon-yonghu',
+          clearable=''
+        )
+</template>

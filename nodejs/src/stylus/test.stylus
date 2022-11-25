@@ -1,0 +1,227 @@
+/*!
+* @Author: CPS
+* @Date: 2020-08-20 10:13:02
+* @Last Modified by: CPS
+* @Last Modified time: 2020-08-20 10:15:29
+* @Projectname test
+* @file_path Z:\CPS\MyProject\3176x32 前端\Data\Packages\testt\stylus-beautify\test\test.stylus
+* @Filename test.stylus
+*/
+
+// 定义组件前缀名
+n='.fileList__'
+
+// 公共样式
+public(){
+  padding 3px 0
+  border-radius 5px
+  background-color #f7fcfa
+  border #ebf7f3 solid 1px
+}
+
+// 新建文件夹时的闪烁颜色
+newFolderColor = #F05050
+
+// 新建文件夹时的动画
+@keyframes newFolder{
+  0% {border-color:#D5D6D7;
+    box-shadow: 1px 1px 5px newFolderColor;}
+  50% {border-color:newFolderColor;
+    box-shadow: 1px 1px 15px newFolderColor;}
+  100% {border-color:#D5D6D7;
+    box-shadow: 1px 1px 5px newFolderColor;}
+}
+
+// 组件容器 - 最外层
+/{n}component
+  display flex
+  flex-grow 99
+  flex-wrap nowrap
+  min-height 200px
+  max-height 450px
+  justify-content space-between
+
+  // 文件列表部分**********************************
+  /{n}container
+    public()
+    display flex
+    flex-grow 1
+    flex-direction column
+    overflow hidden
+    flex-wrap nowrap
+
+
+    //{n}文件列表的文件夹名字
+    /{n}title
+      display flex
+      line-height 25px
+      width 100%
+      height 25px
+
+      svg
+        margin-left 5px
+        align-self center
+        height 20px
+        padding 2px
+        flex-grow 0
+        path
+          fill #42b983
+      span
+        color #42b983
+        align-self center
+        flex-grow 99
+        display inline-block
+        margin-left 5px
+        font-size 16px
+        line-height 100%
+        width 120px
+        height 20px
+        overflow-wrap break-word
+
+    // 文件夹名字
+    /{n}dirname
+      padding 2px
+      font-size 14px
+      overflow-wrap break-word
+
+    // 文件详细列表
+    /{n}content
+      overflow-y scroll
+      overflow-x hidden
+      font-size 12px
+      width 100%
+      display flex
+      flex-direction column
+      border-radius 5px
+
+  // 每个文件夹的外容器
+  /{n}eachFloder
+    // 显示文件夹名称 关闭按钮 打开
+    margin 3px 0
+    border 1px solid #D5D6D7
+    border-radius 5px
+    transition opacity .4s cubic-bezier(.49, -.3, .68, 1.23)
+    animation newFolder 1.5s linear 2
+
+    // 文件夹头部信息
+    /{n}floderHeader
+      display flex
+      justify-content space-between
+      height 25px
+      background-color #fff
+      border-radius 5px 5px 0 0
+      padding 3px
+      cursor pointer
+      border-bottom 1px solid #E8E8E8
+
+      // 子元素公用样式
+      &>*
+        flex-grow 0
+        margin-left 5px
+
+      // 文件夹icon
+      &>img
+        height 18px
+
+      // 文件夹名字
+      /{n}eachFloderName
+        color #42b983
+        flex-grow 99
+        pointer-events none
+
+      // 控制按钮组
+      /{n}floderBtnGroup
+        display flex
+
+        /{n}btnSelOpenFloder
+          height 18px
+          margin-left 5px
+
+        /{n}btnCloseFloder
+          height 18px
+          margin-left 5px
+
+    // 子文件夹 样式
+    /{n}floderContent
+      padding 0
+      height 0
+      overflow hidden
+      background-color: #FFF
+      display flex
+      flex-direction column
+      // transition height .4s cubic-bezier(.49, -.3, .68, 1.23),
+      //   padding .4s cubic-bezier(.49, -.3, .68, 1.23),
+      //   voerflow .4s
+      transition height .5s cubic-bezier(0, 0.97, 0.62, 0.99),
+        padding .4s cubic-bezier(0, 0.97, 0.62, 0.99),
+        voerflow .4s
+
+      // 每个文件的样式
+      /{n}eachFile
+        margin 2px 0
+        cursor pointer
+        display flex
+        flex-align center
+        justify-content space-between
+
+        public(){
+          margin-left 5px
+        }
+
+          // 格式图标
+        /{n}eachFileIcon
+          public()
+          flex-grow 0
+          pointer-events none
+
+        // 文件名
+        /{n}eachFileName
+          public()
+          white-space nowrap
+          overflow hidden
+          flex-grow 9
+          &:hover
+            background-color: lighten(#42b983,90%)
+            color #42b983
+            white-space normal
+            overflow auto
+            padding 1px 0
+            border-bottom 1px solid #AE2ABF
+
+        // 文件大小
+        /{n}eachFileSize
+          width 80px
+          text-align right
+          flex-grow 0
+          pointer-events none
+          public()
+
+    // 文件夹详细简要
+    /{n}floderFooter
+      display flex
+      flex-wrap nowrap
+      // justify-content space-around
+      background-color #E8E8E8
+      border-radius 0 0 5px 5px
+      padding 3px
+
+      // 文件小图标
+      &>div
+        cursor pointer
+        padding 2px
+        display flex
+        align-items center
+        &:hover
+          color #42B983
+          background-color lighten(#42b983, 80%)
+
+        // 文件icon
+        &>img
+          margin 0 5px
+          pointer-events none
+
+        // 文件数量
+        &>span
+          margin-left 1px
+          font-size 12px
+          pointer-events none

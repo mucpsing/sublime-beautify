@@ -1,0 +1,27 @@
+{
+  "name": "stylus-beautify",
+  "version": "1.0.0",
+  "description": "\"调用 stylus-supremacy 来格式化 stylus文件\" ",
+  "main": "index.js",
+  "dependencies": {
+    "@prettier/plugin-pug": "^2.2.0",
+    "html2jade": "^0.8.6",
+    "html2pug": "^4.0.0",
+    "prettier": "^2.7.1",
+    "stylus-supremacy": "^2.14.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:capsion/stylus-beautify.git"
+  },
+  "keywords": [
+    "stylus",
+    "stylus-supremacy",
+    "stylus-beautify"
+  ],
+  "author": "CPS",
+  "license": "ISC"
+}

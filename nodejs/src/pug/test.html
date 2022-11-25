@@ -1,0 +1,40 @@
+<el-aside id="asideNav">
+  <h5>自定义颜色</h5>
+  <!-- 导航容器 -->
+  <el-menu
+    default-active="1"
+    class="el-menu-vertical-demo"
+    @open="handleOpen"
+    @close="handleClose"
+    background-color="#242424"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+  >
+    <!-- 一级菜单1 -->
+    <el-menu-item index="1">
+      <!-- 一级icon -->
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>首页</span>
+      </template>
+    </el-menu-item>
+
+    <!-- 一级菜单2 -->
+    <el-menu-item index="2">
+      <!-- 一级icon -->
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>产品管理</span>
+      </template>
+    </el-menu-item>
+
+    <!-- 一级菜单2 -->
+    <el-menu-item index="3">
+      <!-- 一级icon -->
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>上传产品</span>
+      </template>
+    </el-menu-item>
+  </el-menu>
+</el-aside>
