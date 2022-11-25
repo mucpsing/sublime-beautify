@@ -22,11 +22,14 @@ if int(sublime.version()) < 3176:
 
 
 from .core import utils
-from .core import beautify
+from .core import node
 
 SETTING_KEY = "cps_beautify"
 SETTING_FILE = "cps.sublime-settings"
 SETTINGS = {}
+NODE_SCRIPT_PATH = os.path.join(
+    sublime.packages_path(), __package__, "nodejs", "main.js"
+)
 
 
 def plugin_loaded():
@@ -87,14 +90,15 @@ class ExecEventListener(sublime_plugin.EventListener):
     def on_pre_save(self, view):
         global SETTINGS
         if SETTINGS.get("format_on_save"):
-            sublime.active_window().run_command("testt_beautify_currt_file")
+            print("格式化开始")
+            sublime.active_window().run_command("cps_beautify_currt_file")
 
 
 # 重新加载
 class CpsSyntaxBeautifyReloadCommand(sublime_plugin.TextCommand):
     def run(self, edit: sublime.Edit) -> None:
         print(f"重新加载 {__package__}")
-        reload(beautify)
+        reload(node)
 
 
 # 格式化当前文件[支持格式： vue/js/ts/pug/stylus/css]
@@ -129,7 +133,7 @@ class CpsBeautifyCurrtFileCommand(sublime_plugin.TextCommand):
         options = utils.recursive_update(_settings, syntax_options)
 
         # 传送数据
-        res = beautify.beautifyStr(
+        res = self.beautify_str_by_node(
             buffer_str, syntax, cursor_offset, options, self.view.file_name()
         )
 
@@ -141,6 +145,36 @@ class CpsBeautifyCurrtFileCommand(sublime_plugin.TextCommand):
 
             if int(res["cursorOffset"]) > 0:
                 sublime.Region((res["cursorOffset"], res["cursorOffset"]))
+
+    # 根据语法格式化字符串
+    def beautify_str_by_node(
+        self,
+        buffer_str: str,
+        syntax: str,
+        cursor_offset: int,
+        options: dict,
+        file_path: str = "",
+    ) -> dict:
+        config_str = sublime.encode_value(
+            {
+                "syntax": syntax,  # 当前文件语法
+                "cursorOffset": cursor_offset,  # 当前鼠标位置
+                "filePath": file_path,
+            }
+        )
+
+        options_str = sublime.encode_value(options)
+
+        res = node.run_script(NODE_SCRIPT_PATH, config_str, options_str, buffer_str)
+
+        if res:
+            try:
+                if isinstance(res, str):
+                    return sublime.decode_value(res)
+
+            except Exception as e:
+                print(Exception("beautify_str_by_node() 执行出错:", e))
+                return False
 
 
 # 已选内容的格式化
@@ -167,13 +201,15 @@ class CpsBeautifySelectRegionCommand(sublime_plugin.TextCommand):
         options = SETTINGS.get(syntax, {})
 
         # 先格式化
-        res = beautify.beautifyStr(buffer_str, syntax, cursor_offset, options)
+        res = self.beautify_str_by_node(buffer_str, syntax, cursor_offset, options)
 
         # 如果时html转换pug，
         if syntax == "html2pug":
             syntax = "pug"
             options = SETTINGS.get(syntax, {})
-            res = beautify.beautifyStr(res["formatted"], syntax, cursor_offset, options)
+            res = self.beautify_str_by_node(
+                res["formatted"], syntax, cursor_offset, options
+            )
 
         # 格式化成功
         if res and "formatted" in res:
