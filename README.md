@@ -1,78 +1,136 @@
 # 简介|Introductions
 
-同类插件sublimeText已经有，但很久没更新，而且功能比较多，配置起来有点没弄明白，还是写个自己用，人蠢就多努力，没办法。
+自用的jdDoc格式注释模板注入插件，原理是采用正则匹配，以前不知道有**AST**模块的时候写的，也没时间重构，就边用边更新了。
+
+注意: 插件市场有专业的功能相似的插件，我只是单纯为了自己用的爽菜写的😁，才不是因为它配置太复杂才自己造轮子，请有需要的朋友请使用专业插件。
 
 <div>
     <img flex="left" src="https://img.shields.io/badge/python-%3E%3D3.8.0-3776AB"/>
     <img flex="left" src="https://img.shields.io/badge/Sublime%20Text-FF9800?style=flat&logo=Sublime%20Text&logoColor=white"/>
     <img flex="left" src="https://img.shields.io/github/license/caoxiemeihao/electron-vite-vue?style=flat"/>
 </div>
-
-
-# 主要功能|Features
-
-- 快速插入文件头部信息
-- 根据后缀名关联模板
-- 一种后缀名可关联多个模板（vue2和vue3）
-
+[English](README.en.md) | 简体中文
 
 
 
 # 使用|Usage
 
-- `Alt  + f`在当前文件插入文件头，支持自定义模板和对应格式
+快捷键：`Alt + q` 在函数行键入即可，暂时py使用比较多，js和ts部分语法不能识别，也没空更新
 
-使用演示：
+## **创建注释块**
 
-![1](screenshot/fileheader1.gif)
+![setp1](screenshot/setp1.gif)
 
-![fileheader1](http://localhost:45462/image/fileheader1.gif)
+![step1](http://localhost:45462/image/step1.gif)
 
 
 
-# 插件配置|Configure
+## **更新注释块**
 
-- `Packages/User/cps.sublime-settings`
+![setp2](screenshot/setp2.gif)
+
+![step2](http://localhost:45462/image/step2.gif)
+
+
+
+# **插件配置**
 
 ```js
+// Packages/User/cps.sublime-settings
 {
-  "fileheader":{
-    "update_header_on_openfile": false, //打开文件的时候是否检查需要更新头部信息
-    "update_header_on_savefile": false, //保存时是否更新头部信息
+  "name": "tett 插件",
+  "author": "CPS",
+  "mail": "373704015@qq.com", //本插件任何问题请联系qq
 
-    //本插件只通过后缀名来识别文件,请按需添加
-    "template": {
-      //模版插件目录/fileheader/header/*.tmpl
-      // "文件格式":"对应的 xxxx.tmpl 文件",
-      // 支持多个.tmpl文件
-      ".bat": "Batch File",
-      ".pug": "pug",
-      ".js": "JavaScript",
-      ".json": "JavaScript",
-      ".cjs": "JavaScript", //comment.js 文件
-      ".mjs": "JavaScript", //ES6文件
-      ".ts": "JavaScript",
-      ".css": "CSS",
-      ".scss": "SCSS",
-      ".less": "less",
-      ".stylus": "styl",
-      ".styl": "styl",
-      ".vue": ["vue", "vue2", "vue3", "vue2-ts", "vue3-setup"],
-      ".py": "Python"
+  // prettier-ignore
+  "cps_comments_creator": {
+    // 全局默认配置
+    "max_search_count":80,       // 搜索行数（正数从上向下查找， 负数反之）
+    "params_alignment":"  ",     // [indent<string>] 是否对齐参数
+    "comments_direction":"up",   // "down"|"up" 函数名字上一行，函数名字下一行
+    "default_tmpl":{
+      "comments_contexts":{
+        "Description":true,
+        "param":":param {type} {name} {description}",
+        "returns":":returns {type} {description}",
+      }
     },
 
-    "header_info": {
-      "author": "CPS",
-      "email": "373704015@qq.com",
-      "create_time": "", // 输入一个时间格式 默认: "%Y-%m-%d %H:%M:%S" | "%Y-%m-%d" | "%H:%M:%S"
-      "last_modified_by": "CPS", // 输入一个时间格式 默认: "%Y-%m-%d %H:%M:%S" | "%Y-%m-%d" | "%H:%M:%S"
-      "last_modified_time": "", // 输入一个时间格式 默认: "%Y-%m-%d %H:%M:%S" | "%Y-%m-%d" | "%H:%M:%S"
-      "project_name": "",
-      "file_path": "",
-      "file_name": "",
-      "自定义": "{{自定义}}" //自定义要替换的信息
+    /* 根据后缀名设置 */
+    "py": { 
+      "comments_direction": "down",
+      "comments_contexts":{
+        "Description":"@Description {description}\n",
+        "param":"- param {name} :{type} {description}",
+        "returns":"\n@returns `{type}` {description}"
+      },
+      "comments_header": [
+        "    \"\"\"",      // 注释区的开始标识
+        "    ",            // 内容位置的前缀
+        "    \"\"\"",      // 注释区的结束
+      ]
+    },
+
+    "js":{ 
+      "comments_contexts":{
+        "Description":"@Description - {description}\n",
+        "param":"@param {type} {name}  - {description}",
+        "returns":"\n@returns {type} - {description}"
+      },
+      "comments_header": [
+        "/**",        //    /**
+        " * ",        //     * 内容位置的前缀
+        " */"         //     */
+      ]
+    },
+
+    "mjs":{
+      "comments_contexts":{
+        "Description":"@Description - {description}\n",
+        "param":"@param {type} {name}  - {description}",
+        "returns":"\n@returns {type} - {description}"
+      },
+      "comments_header": [
+        "/**",        //    /**
+        " * ",        //     * 内容位置的前缀
+        " */"         //     */
+      ]
+    },
+
+    "ts":{
+      "comments_contexts":{
+        "Description":"@Description - {description}\n",
+        "param":"@param {type} {name}  - {description}",
+        "returns":"\n@returns {type} - {description}"
+      },
+      "comments_header": [
+        "/**",        // /**
+        " * ",        //  * 内容位置的前缀
+        " */"         //  */
+      ]
+    },
+
+    "vue":{ 
+      "comments_contexts":{
+        "Description":" @Description {description}\n",
+        "param":" @param {type} {name}  {description}",
+        "returns":"\n @returns {type} {description}"
+      },
+      "comments_header": [
+        "/**",      // /**
+        " * ",      //  * @Description:
+        " */"       //  */
+      ]
     }
-  },
+  }
+  // prettier-ignore
 }
 ```
 
+
+
+
+
+# 联系方式|Contact
+
+- **373704015 (qq、wechat、email)**
