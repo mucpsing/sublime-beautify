@@ -1,7 +1,7 @@
 [
   {
     "caption": "Html To Pug",
-    "command": "testt_beautify_select_region",
+    "command": "cps_beautify_select_region",
     "args": {
       "syntax": "html2pug"
     }

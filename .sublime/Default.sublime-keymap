@@ -1,6 +1,6 @@
 [
   {
     "keys": ["alt+s"],
-    "command": "testt_beautify_currt_file"
+    "command": "cps_beautify_currt_file"
   }
 ]
