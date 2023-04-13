@@ -1,0 +1,43 @@
+DIR:cps_beautify                                       # 
+   |-- .sublime/                                       # 
+   |   |-- Default.sublime-keymap                      # 
+   |   `-- Context.sublime-menu                        # 
+   |-- core/                                           # 「core」
+   |   |-- yarn.lock                                   # 
+   |   |-- utils.py                                    # 
+   |   `-- node.py                                     # 
+   |-- nodejs/                                         # 「nodejs」
+   |   |-- src/                                        # 「src」
+   |   |   |-- js/                                     # 「js」
+   |   |   |   |-- test.json                           # 
+   |   |   |   |-- test.js                             # 
+   |   |   |   |-- jsBeatufyDefaultOptions.js          # 
+   |   |   |   `-- jsBeatufy.js                        # 
+   |   |   |-- pug/                                    # 「pug」
+   |   |   |   |-- test.pug                            # 
+   |   |   |   |-- test.html                           # 
+   |   |   |   |-- pugBeautySortAttributesEnd.js       # 
+   |   |   |   |-- pugBeautySortAttributesBeginning.js # 
+   |   |   |   |-- pugBeautyDefaultOptions.js          # 
+   |   |   |   |-- pugBeauty.js                        # 
+   |   |   |   |-- html2pugDefaultOptions.js           # 
+   |   |   |   `-- html2pug.js                         # 
+   |   |   |-- stylus/                                 # 「stylus」
+   |   |   |   |-- test.stylus                         # 
+   |   |   |   |-- stylusBeatufyDefaultOptions.js      # 
+   |   |   |   `-- stylusBeatufy.js                    # 
+   |   |   |-- vue/                                    # 「vue」
+   |   |   |   |-- vueBeatufyDefaultOptions.js         # 
+   |   |   |   |-- vueBeatufy.js                       # 
+   |   |   |   `-- test.vue                            # 
+   |   |-- yarn.lock                                   # 
+   |   |-- package.json                                # 
+   |   |-- package-lock.json                           # 
+   |   `-- main.js                                     # 
+   |-- screenshot/                                     # 「screenshot」
+   |   |-- step2.gif                                   # 
+   |   `-- step1.gif                                   # 
+   |-- README.md                                       # 
+   |-- main.py                                         # 
+   |-- .python-version                                 # 
+   `-- .gitignore                                      # 

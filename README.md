@@ -1,19 +1,133 @@
-# 简介|Introductions
+## 简介|Introductions
 
-主要是用来格式化前端代码文件，暂时支持：js、html、css、pug、stylus、less、sass、vue、ts
+<div>
+    <img flex="left" src="https://img.shields.io/badge/python-%3E%3D3.8.0-3776AB"/>
+    <img flex="left" src="https://img.shields.io/badge/Sublime%20Text-FF9800?style=flat&logo=Sublime%20Text&logoColor=white"/>
+    <img flex="left" src="https://img.shields.io/github/license/caoxiemeihao/electron-vite-vue?style=flat"/>
+</div>
 
-原理是调用`prettier`，电脑中必须安装了node，否则插件无法正常使用。
+主要是用来格式化前端代码文件，暂时支持：`js`、`html`、`css`、`pug`、`stylus`、`less`、`sass`、`vue`、`ts`
 
-sublimeText上已有功能更加完善的插件，这个插件是当初本人学习sublimetext插件时的练手项目。
+原理是通过本地的**node**调用`prettier`来个格式化文件，所以电脑中必须安装了node，否则插件无法正常使用。
+
+sublimeText上已有功能更加完善的插件，这个插件纯团队内部使用，不对外维护😊。
+
+> - 本插件为团队内部打造使用，不对外更新负责，
+> - 2023年了，前端建议采用**VSCode**。
+
+![fileheader](/screenshot/sublimeTextPlugs/cps-beautify/cps-beautify.gif)
+![cps-beautify](http://localhost:45462/image/cps-beautify.gif)
 
 
 
-# 相关配置
+## 功能|Feature
+
+- 调用`prettier`格式化前端文件
+- ~~html与pug（jade）互相转换（需要手动选择）~~ 太旧没用这个功能，暂时失效
+- 支持局部格式化
+
+
+
+## 安装|Install
+
+```bash
+# 打开 SublimeText3
+菜单栏 > Preferences > Browse Packages...
+
+# 在插件目录运行shell，下载插件
+
+# gitee
+git clone --depth=1 git@gitee.com:Capsion-ST-PLugins/sublime-beautify.git cps_beautify
+# or github
+git clone --depth=1 git@github.com:Capsion-ST-PLugins/sublime-beautify.git cps_beautify
+
+# 进入插件
+cd .\cps_beautify\nodejs\
+
+# 安装依赖
+yarn 
+# or 
+npm i
+
+# 重启ST
+ctrl + s
+```
+
+
+
+## 项目架构|Tree
+
+```bash
+DIR:cps_beautify                                       # 
+   |-- .sublime/                                       # 「.sublime」配置文件目录
+   |   |-- Default.sublime-keymap                      # 快捷键
+   |   `-- Context.sublime-menu                        # 右键菜单
+   |-- core/                                           # 「core」核心逻辑
+   |   |-- yarn.lock                                   # 
+   |   |-- utils.py                                    # 
+   |   `-- node.py                                     # 
+   |-- nodejs/                                         # 「nodejs」 node代码文件，主要安装prettier，
+   |   |-- src/                                        # 「src」
+   |   |   |-- js/                                     # 「js」 处理js、ts、tsx文件格式化
+   |   |   |   |-- test.json                           # 
+   |   |   |   |-- test.js                             # 
+   |   |   |   |-- jsBeatufyDefaultOptions.js          # 
+   |   |   |   `-- jsBeatufy.js                        # 
+   |   |   |-- pug/                                    # 「pug」 
+   |   |   |   |-- test.pug                            # 
+   |   |   |   |-- test.html                           # 
+   |   |   |   |-- pugBeautySortAttributesEnd.js       # 
+   |   |   |   |-- pugBeautySortAttributesBeginning.js # 
+   |   |   |   |-- pugBeautyDefaultOptions.js          # 
+   |   |   |   |-- pugBeauty.js                        # 
+   |   |   |   |-- html2pugDefaultOptions.js           # 
+   |   |   |   `-- html2pug.js                         # 
+   |   |   |-- stylus/                                 # 「stylus」
+   |   |   |   |-- test.stylus                         # 
+   |   |   |   |-- stylusBeatufyDefaultOptions.js      # 
+   |   |   |   `-- stylusBeatufy.js                    # 
+   |   |   |-- vue/                                    # 「vue」
+   |   |   |   |-- vueBeatufyDefaultOptions.js         # 
+   |   |   |   |-- vueBeatufy.js                       # 
+   |   |   |   `-- test.vue                            # 
+   |   |-- yarn.lock                                   # 
+   |   |-- package.json                                # 
+   |   |-- package-lock.json                           # 
+   |   `-- main.js                                     # 
+   |-- screenshot/                                     # 「screenshot」
+   |   |-- step2.gif                                   # 
+   |   `-- step1.gif                                   # 
+   |-- README.md                                       # 
+   |-- main.py                                         # 
+   |-- .python-version                                 # 
+   `-- .gitignore                                      # 
+
+```
+
+
+
+## 配置文件|Configure
+
+### **快捷键**
+
+- `Packages/User/Default.sublime-keymap`
+
+```js
+[
+  {
+    "keys": ["alt+s"],
+    "command": "cps_beautify_currt_file"
+  }
+]
+```
+
+
+
+### **插件配置|Configure**
 
 - `Packages/User/cps.sublime-settings`
-- 全局配置可以参考：
-- pug配置可以参考：
-- stylus配置可以参考：
+
+配置看似很多，其实只是跟prettier的配置文件一样，只是写入到了对应后缀名的字段，相关参数均可通过官方文档自定义配置
 
 ```js
  {
@@ -228,3 +342,8 @@ sublimeText上已有功能更加完善的插件，这个插件是当初本人学
   }
 ```
 
+
+
+## 联系方式|Contact
+
+- **373704015 (qq、wechat、email)**
