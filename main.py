@@ -27,9 +27,7 @@ from .core import node
 SETTING_KEY = "cps_beautify"
 SETTING_FILE = "cps.sublime-settings"
 SETTINGS = {}
-NODE_SCRIPT_PATH = os.path.join(
-    sublime.packages_path(), __package__, "nodejs", "main.js"
-)
+NODE_SCRIPT_PATH = os.path.join(sublime.packages_path(), __package__, "nodejs", "main.js")
 
 
 def plugin_loaded():
@@ -43,9 +41,7 @@ class SettingManager:
     def __init__(self, setting_key: str, default_settings: str):
         self.setting_key = setting_key
         self.default_settings = default_settings
-        self.default_settings_path = os.path.join(
-            sublime.packages_path(), "cps-plugins", ".sublime", default_settings
-        )
+        self.default_settings_path = os.path.join(sublime.packages_path(), "cps-plugins", ".sublime", default_settings)
 
         self.data = {}
 
@@ -75,9 +71,7 @@ class SettingManager:
         utils.recursive_update(self.data, user_settings.to_dict()[self.setting_key])
 
     def _on_settings_change(self):
-        new_settings = sublime.load_settings(self.default_settings).get(
-            self.setting_key, {}
-        )
+        new_settings = sublime.load_settings(self.default_settings).get(self.setting_key, {})
 
         utils.recursive_update(self.data, new_settings)
 
@@ -110,15 +104,15 @@ class CpsBeautifyCurrtFileCommand(sublime_plugin.TextCommand):
     def beautify(self, edit, syntax=None) -> None:
         global SETTINGS
 
+        reload(utils)
+
         # 当前文件内容转换成字符串
         region = sublime.Region(0, self.view.size())
         buffer_str = self.view.substr(region)
 
         # 获取当前文件语法
         if not syntax:
-            syntax = utils.check_stynax(self.view.file_name()) or utils.check_stynax(
-                self.view.settings().get("syntax")
-            )
+            syntax = utils.check_stynax(self.view.file_name()) or utils.check_stynax(self.view.settings().get("syntax"))
         if not syntax:
             return print("无法识别当前语法： ", self.view.file_name())
         if syntax in ["python"]:
@@ -131,11 +125,27 @@ class CpsBeautifyCurrtFileCommand(sublime_plugin.TextCommand):
         _settings = SETTINGS.get("global", {})
         syntax_options = SETTINGS.get(syntax, {})
         options = utils.recursive_update(_settings, syntax_options)
+        prettierrc_options = {}
+
+        # 获取当前项目的根目录文件夹路径
+        currt_file = self.view.file_name()
+        project_data = sublime.active_window().project_data()
+        project_dir = None
+        if project_data:
+            for each_dir in [each.get("path") for each in project_data.get("folders", [])]:
+                if utils.is_contained_dir(each_dir, currt_file):
+                    project_dir = each_dir
+                    break
+
+        if project_dir:
+            # 检查目录下方是否存在.prettierrc文件
+            prettierrc_file = os.path.join(project_dir, ".prettierrc")
+            if os.path.exists(prettierrc_file):
+                prettierrc_options = utils.prettierrc_json_parser(prettierrc_file)
+                options = utils.recursive_update(options, prettierrc_options)
 
         # 传送数据
-        res = self.beautify_str_by_node(
-            buffer_str, syntax, cursor_offset, options, self.view.file_name()
-        )
+        res = self.beautify_str_by_node(buffer_str, syntax, cursor_offset, options, self.view.file_name())
 
         if res and isinstance(res, dict) and "formatted" in res:
             # 替换新数据到当前文件
@@ -207,9 +217,7 @@ class CpsBeautifySelectRegionCommand(sublime_plugin.TextCommand):
         if syntax == "html2pug":
             syntax = "pug"
             options = SETTINGS.get(syntax, {})
-            res = self.beautify_str_by_node(
-                res["formatted"], syntax, cursor_offset, options
-            )
+            res = self.beautify_str_by_node(res["formatted"], syntax, cursor_offset, options)
 
         # 格式化成功
         if res and "formatted" in res:

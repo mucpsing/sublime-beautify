@@ -1,6 +1,6 @@
 [
   {
-    "keys": ["alt+s"],
+    "keys": ["shift+alt+f"],
     "command": "cps_beautify_currt_file"
   }
 ]

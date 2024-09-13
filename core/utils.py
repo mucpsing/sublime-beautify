@@ -10,11 +10,13 @@
 # @Description: 功能描述
 #
 
-if __name__ == "__main__":
-    pass
 
+import re, json, datetime
+from typing import Dict, Any
 
-import os
+from os import path
+
+INLINE_REG = re.compile(r"(.*)(#.*$)")
 
 
 def args_to_lower(func):
@@ -145,6 +147,35 @@ def recursive_update(default: dict, custom: dict) -> dict:
             default[key] = custom[key]
 
     return default
+
+
+def is_contained_dir(dir_path: str, file_path: str) -> bool:
+    """
+    @Description 判断一个目录和文件路径是否存在包含关系
+    """
+    import os
+
+    try:
+        dir_abs = os.path.abspath(dir_path)
+        file_abs = os.path.abspath(file_path)
+
+        is_contained = dir_abs == os.path.commonpath([dir_abs, file_abs])
+    except Exception as e:
+        print(e)
+
+        is_contained = False
+    return is_contained
+
+
+def prettierrc_json_parser(file_path: str) -> dict:
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            content = file.read()
+            res = json.loads(content)
+            return res
+    except Exception as e:
+        print("prettierrc_json_parser error: ", e)
+        return dict()
 
 
 if __name__ == "__main__":

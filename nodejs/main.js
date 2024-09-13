@@ -54,7 +54,9 @@ process.stdin.on("end", function () {
   const parser = {
     "vue": "vue",
     "js": "babel",
+    "cjs": "babel",
     "ts": "typescript",
+    "mts": "typescript",
     "javascript": "babel",
     "typescript": "typescript",
     "css": "css",
