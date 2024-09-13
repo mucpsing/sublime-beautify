@@ -161,7 +161,7 @@ def is_contained_dir(dir_path: str, file_path: str) -> bool:
 
         is_contained = dir_abs == os.path.commonpath([dir_abs, file_abs])
     except Exception as e:
-        print(e)
+        # print("cps_beautiy=>is_contained_dir: ", e)
 
         is_contained = False
     return is_contained
@@ -174,7 +174,7 @@ def prettierrc_json_parser(file_path: str) -> dict:
             res = json.loads(content)
             return res
     except Exception as e:
-        print("prettierrc_json_parser error: ", e)
+        # print("cps_beautiy=>prettierrc_json_parser error: ", e)
         return dict()
 
 
